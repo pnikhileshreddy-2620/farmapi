@@ -1,5 +1,6 @@
 package com.farmweb.api.dto;
 
+import com.farmweb.api.model.Vendor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -27,12 +28,26 @@ public class VendorDTO {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String vendorPassword;
 
+    private String errorMessage;
+
     public VendorDTO(String vendorName, String vendorAddress, String vendorEmail, String vendorPhone, String vendorPassword) {
         this.vendorName = vendorName;
         this.vendorAddress = vendorAddress;
         this.vendorEmail = vendorEmail;
         this.vendorPhone = vendorPhone;
         this.vendorPassword = vendorPassword;
+
+    }
+
+    public VendorDTO(Vendor vendor) {
+        this.vendorId=vendor.getVendorId();
+        this.vendorName = vendor.getVendorName();
+        this.vendorAddress = vendor.getVendorAddress();
+        this.vendorEmail = vendor.getVendorEmail();
+        this.vendorPhone = vendor.getVendorPhone();
+    }
+
+    public VendorDTO(String message) {
     }
 
     public String getVendorName() {
@@ -84,5 +99,13 @@ public class VendorDTO {
     }
 
     public VendorDTO() {
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

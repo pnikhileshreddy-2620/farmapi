@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class VendorServiceImpl implements VendorService {
     @Autowired
@@ -47,6 +49,61 @@ public class VendorServiceImpl implements VendorService {
         vendorDTO.setVendorPhone(vendor.getVendorPhone());
         return vendorDTO;
     }
+    @Override
+    public VendorDTO deleteVendor(Integer vendorID) throws VendorException {
+        VendorDTO vendorDTO = getVendorDTOById(vendorID);
+        if (vendorDTO == null) {
+            throw new VendorException("Vendor with ID " + vendorID + " not found");
+        }
+        System.out.println(2);
+        vendorRepository.deleteById(vendorID);
+        return vendorDTO;
+    }
+
+    @Override
+    public VendorDTO updateVendorName(Integer vendorID, String VendorName) throws VendorException {
+        Optional<Vendor> optionalVendor = vendorRepository.findById(vendorID);
+        if (optionalVendor.isEmpty()) {
+            throw new VendorException("Vendor with id " + vendorID + " not found");
+        }
+        Vendor vendor = optionalVendor.get();
+
+        if(vendor==null)
+            throw new VendorException("Vendor with ID " + vendorID + " not found");
+        vendor.setVendorName(VendorName);
+        vendorRepository.save(vendor);
+        return new VendorDTO(vendor);
+    }
+
+//    @Override
+//    public VendorDTO updateVendorEmail(Integer VendorID, String VendorEmail) throws VendorException {
+//        Vendor vendor =  vendorRepository.getById(VendorID);
+//        if(vendor==null)
+//            throw new VendorException("Vendor with ID " + VendorID + " not found");
+//        vendor.setVendorEmail(VendorEmail);
+//        vendorRepository.save(vendor);
+//        return new VendorDTO(vendor);
+//    }
+//
+//    @Override
+//    public VendorDTO updateVendorPhone(Integer VendorID, String VendorPhone) throws VendorException {
+//        Vendor vendor =  vendorRepository.getById(VendorID);
+//        if(vendor==null)
+//            throw new VendorException("Vendor with ID " + VendorID + " not found");
+//        vendor.setVendorPhone(VendorPhone);
+//        vendorRepository.save(vendor);
+//        return new VendorDTO(vendor);
+//    }
+//
+//    @Override
+//    public VendorDTO updateVendorAddress(Integer VendorID, String VendorAddress) throws VendorException {
+//        Vendor vendor =  vendorRepository.getById(VendorID);
+//        if(vendor==null)
+//            throw new VendorException("Vendor with ID " + VendorID + " not found");
+//        vendor.setVendorAddress(VendorAddress);
+//        vendorRepository.save(vendor);
+//        return new VendorDTO(vendor);
+//    }
 
 
 }

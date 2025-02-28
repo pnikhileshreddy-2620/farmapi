@@ -87,4 +87,7 @@ public class Customer {
 
     public Customer() {
     }
+
+    public void setActive(boolean b) {
+    }
 }

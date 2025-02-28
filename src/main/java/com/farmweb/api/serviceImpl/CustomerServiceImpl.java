@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
@@ -51,4 +53,70 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customerDTO;
     }
+
+    @Override
+    public CustomerDTO deleteCustomerDTOByID(Integer customerID) throws CustomerException {
+        CustomerDTO customerDTO =getCustomerDTOByID(customerID);
+        if (customerDTO==null) {
+            throw new CustomerException("Customer not found with ID: " + customerID);
+        }
+        customerRepository.deleteById(customerID);
+        return customerDTO;
+    }
+
+
+
+    @Override
+    public CustomerDTO updateCustomerName(Integer customerID, String newCustomerName) throws CustomerException {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
+
+        if (optionalCustomer.isEmpty()) {
+            throw new CustomerException("Customer not found with ID: " + customerID);
+        }
+
+        Customer customer = optionalCustomer.get();
+        customer.setCustomerName(newCustomerName);
+        customerRepository.save(customer);
+
+        return new  CustomerDTO(customer);
+    }
+
+    @Override
+    public CustomerDTO updateCustomerPhoneNumber(Integer customerID, String customerPhoneNumber) throws CustomerException {
+
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
+        if (optionalCustomer.isEmpty()) {
+            throw new CustomerException("Customer not found with ID: " + customerID);
+        }
+        Customer customer = optionalCustomer.get();
+        customer.setCustomerPhone(customerPhoneNumber);
+    customerRepository.save(customer);
+        return new  CustomerDTO(customer);
+    }
+
+    @Override
+    public CustomerDTO updateCustomerEmail(Integer customerID, String customerEmail) throws CustomerException {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
+        if (optionalCustomer.isEmpty()) {
+            throw new CustomerException("Customer not found with ID: " + customerID);
+        }
+        Customer customer = optionalCustomer.get();
+        customer.setCustomerEmail(customerEmail);
+        customerRepository.save(customer);
+        return new  CustomerDTO(customer);
+    }
+
+    @Override
+    public CustomerDTO updateCustomerAddress(Integer customerID, String customerAddress) throws CustomerException {
+        Optional<Customer> optionalCustomer = customerRepository.findById(customerID);
+        if (optionalCustomer.isEmpty()) {
+            throw new CustomerException("Customer not found with ID: " + customerID);
+        }
+        Customer customer = optionalCustomer.get();
+        customer.setCustomerAddress(customerAddress);
+        customerRepository.save(customer);
+        return new  CustomerDTO(customer);
+    }
+
+
 }

@@ -1,11 +1,13 @@
 package com.farmweb.api.dto;
 
+import com.farmweb.api.model.Admin;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class AdminDTO {
+    private int adminId;
     @NotBlank(message = "Customer name is required")
     @Size(min = 3, max = 20, message = "admin name must be between 3 and 50 characters")
     private String adminName;
@@ -21,6 +23,28 @@ public class AdminDTO {
     @NotBlank(message = "Admin address is required")
     @Size(min = 5, max = 50, message = "Address must be between 5 and 100 characters")
     private String adminAddress;
+
+    private String errorMessage;
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public AdminDTO(Admin admin) {
+        this.adminId =admin.getAdminId();
+        this.adminName = admin.getAdminName();
+        this.adminEmail = admin.getAdminEmail();
+        this.adminPhone = admin.getAdminPhone();
+        this.adminAddress = admin.getAdminAddress();
+
+    }
+
+    public AdminDTO(String message) {
+    }
 
     public String getAdminName() {
         return adminName;
@@ -60,6 +84,14 @@ public class AdminDTO {
 
     public void setAdminAddress(String adminAddress) {
         this.adminAddress = adminAddress;
+    }
+
+    public int getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
     }
 
     public AdminDTO(String adminName, String adminPassword, String adminEmail, String adminPhone, String adminAddress) {

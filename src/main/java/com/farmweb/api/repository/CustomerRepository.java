@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Customer findByCustomerName(String customerName);
-    Customer findByCustomerId(Integer customerId);
 
 
+    Customer deleteCustomerByCustomerId(Integer customerId);
 }
