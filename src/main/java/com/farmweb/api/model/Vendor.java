@@ -1,9 +1,16 @@
 package com.farmweb.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Vendor {
 
     @Id
@@ -12,79 +19,17 @@ public class Vendor {
 
     private String vendorName;
     private String vendorAddress;
+
+    @Column(unique = true, nullable = false)
     private String vendorEmail;
+
+    @Column(unique = true, nullable = false)
     private String vendorPhone;
+
+    @JsonIgnore
     private String vendorPassword;
 
-    @OneToMany(mappedBy = "vendor")
+    @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<History> transactions;
-
-    public Integer getVendorId() {
-        return vendorId;
-    }
-
-    public void setVendorId(Integer vendorId) {
-        this.vendorId = vendorId;
-    }
-
-    public String getVendorName() {
-        return vendorName;
-    }
-
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
-    }
-
-    public String getVendorAddress() {
-        return vendorAddress;
-    }
-
-    public void setVendorAddress(String vendorAddress) {
-        this.vendorAddress = vendorAddress;
-    }
-
-    public String getVendorEmail() {
-        return vendorEmail;
-    }
-
-    public void setVendorEmail(String vendorEmail) {
-        this.vendorEmail = vendorEmail;
-    }
-
-    public String getVendorPhone() {
-        return vendorPhone;
-    }
-
-    public void setVendorPhone(String vendorPhone) {
-        this.vendorPhone = vendorPhone;
-    }
-
-    public String getVendorPassword() {
-        return vendorPassword;
-    }
-
-    public void setVendorPassword(String vendorPassword) {
-        this.vendorPassword = vendorPassword;
-    }
-
-    public List<History> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<History> transactions) {
-        this.transactions = transactions;
-    }
-
-    public Vendor() {
-    }
-
-    public Vendor(Integer vendorId, String vendorName, String vendorAddress, String vendorEmail, String vendorPhone, String vendorPassword, List<History> transactions) {
-        this.vendorId = vendorId;
-        this.vendorName = vendorName;
-        this.vendorAddress = vendorAddress;
-        this.vendorEmail = vendorEmail;
-        this.vendorPhone = vendorPhone;
-        this.vendorPassword = vendorPassword;
-        this.transactions = transactions;
-    }
 }

@@ -1,7 +1,7 @@
 package com.farmweb.api.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class History {
@@ -10,16 +10,17 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer transactionId;
 
-    private LocalDate transactionDate;
-    private Double amount;
+    @ManyToOne
+    @JoinColumn(name = "vendor_id", nullable = false)
+    private Vendor vendor;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "vendor_id")
-    private Vendor vendor;
+    private Double amount;
+    private Integer quantity;
+    private LocalDateTime transactionDate;
 
     public Integer getTransactionId() {
         return transactionId;
@@ -27,30 +28,6 @@ public class History {
 
     public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
-    }
-
-    public LocalDate getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setTransactionDate(LocalDate transactionDate) {
-        this.transactionDate = transactionDate;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public Vendor getVendor() {
@@ -61,14 +38,35 @@ public class History {
         this.vendor = vendor;
     }
 
-    public History(Integer transactionId, LocalDate transactionDate, Double amount, Customer customer, Vendor vendor) {
-        this.transactionId = transactionId;
-        this.transactionDate = transactionDate;
-        this.amount = amount;
-        this.customer = customer;
-        this.vendor = vendor;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public History() {
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(LocalDateTime transactionDate) {
+        this.transactionDate = transactionDate;
     }
 }

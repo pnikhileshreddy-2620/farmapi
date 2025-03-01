@@ -22,7 +22,7 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/customer/**", "/api/vendor/**", "/api/admins/**").permitAll()
+                        .requestMatchers("/api/customer/**", "/api/vendor/**", "/api/admins/**","history/create").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());

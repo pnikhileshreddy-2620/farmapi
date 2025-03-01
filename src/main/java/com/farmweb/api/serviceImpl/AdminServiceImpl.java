@@ -45,6 +45,7 @@ public class AdminServiceImpl implements AdminService {
         AdminDTO adminDTO = new AdminDTO();
         Admin  admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> new AdminException("Admin not found with ID: " + adminId));
+        adminDTO.setAdminId(admin.getAdminId());
         adminDTO.setAdminName(admin.getAdminName());
         adminDTO.setAdminEmail(admin.getAdminEmail());
         adminDTO.setAdminPhone(admin.getAdminPhone());
