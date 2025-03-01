@@ -3,6 +3,7 @@ package com.farmweb.api.controller;
 import com.farmweb.api.dto.CustomerDTO;
 import com.farmweb.api.exception.CustomerException;
 import com.farmweb.api.model.Customer;
+import com.farmweb.api.model.History;
 import com.farmweb.api.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -123,7 +125,11 @@ public class CustomerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomerDTO(e.getMessage()));
         }
     }
-
+    @GetMapping("/{customerId}/last10transactions")
+    public ResponseEntity<List<History>> getLast10Transactions(@PathVariable Integer customerId) {
+        List<History> transactions = customerService.getLast10TransactionsByCustomerId(customerId);
+        return ResponseEntity.ok(transactions);
+    }
 }
 
 

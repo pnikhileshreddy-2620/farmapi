@@ -65,49 +65,63 @@ public class VendorController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new VendorDTO(e.getMessage()));
         }
     }
-//    @PutMapping("/{vendorId}/update-Email")
-//    public ResponseEntity<VendorDTO> updateVendorEmail(
-//            @PathVariable Integer vendorId,
-//            @RequestBody Map<String, String> requestBody) {
-//        String vendor = requestBody.get("vendorEmail");
-//        if (vendor.isEmpty()) {
-//            return ResponseEntity.badRequest().body(new VendorDTO("Error: Email cannot be empty"));
-//        }
-//        try {
-//            VendorDTO vendorDTO = vendorService.updateVendorEmail(vendorId, vendor);
-//            return ResponseEntity.ok(vendorDTO);
-//        } catch (CustomerException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new VendorDTO(e.getMessage()));
-//        }
-//    }
-//    @PutMapping("/{vendorId}/update-Phone")
-//    public ResponseEntity<VendorDTO> updateVendor(
-//            @PathVariable Integer vendorId,
-//            @RequestBody Map<String, String> requestBody) {
-//        String vendor = requestBody.get("vendorPhone");
-//        if (vendor.isEmpty()) {
-//            return ResponseEntity.badRequest().body(new VendorDTO("Error: Phone Number cannot be empty"));
-//        }
-//        try {
-//            VendorDTO vendorDTO = vendorService.updateVendorPhone(vendorId, vendor);
-//            return ResponseEntity.ok(vendorDTO);
-//        } catch (CustomerException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new VendorDTO(e.getMessage()));
-//        }
-//    }
-//    @PutMapping("/{vendorId}/update-name")
-//    public ResponseEntity<VendorDTO> updateVendorAddress(
-//            @PathVariable Integer vendorId,
-//            @RequestBody Map<String, String> requestBody) {
-//        String vendor = requestBody.get("vendorAddress");
-//        if (vendor.isEmpty()) {
-//            return ResponseEntity.badRequest().body(new VendorDTO("Error: Address cannot be empty"));
-//        }
-//        try {
-//            VendorDTO vendorDTO = vendorService.updateVendorAddress(vendorId, vendor);
-//            return ResponseEntity.ok(vendorDTO);
-//        } catch (CustomerException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new VendorDTO(e.getMessage()));
-//        }
-//    }
+    @PutMapping("/{vendorId}/update-email")
+    public ResponseEntity<VendorDTO> updateVendorEmail(
+            @PathVariable Integer vendorId,
+            @RequestBody Map<String, String> requestBody) {
+        String vendor = requestBody.get("vendorEmail");
+
+        if (vendor.isEmpty()) {
+            return ResponseEntity.badRequest().body(new VendorDTO("Error: Email cannot be empty"));
+        }
+        try {
+
+            VendorDTO vendorDTO = vendorService.updateVendorEmail(vendorId, vendor);
+            return ResponseEntity.ok(vendorDTO);
+        } catch (CustomerException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new VendorDTO(e.getMessage()));
+        }
+    }
+    @PutMapping("/{vendorId}/update-phone")
+    public ResponseEntity<VendorDTO> updateVendor(
+            @PathVariable Integer vendorId,
+            @RequestBody Map<String, String> requestBody) {
+        String vendor = requestBody.get("vendorPhone");
+        if (vendor.isEmpty()) {
+            return ResponseEntity.badRequest().body(new VendorDTO("Error: Phone Number cannot be empty"));
+        }
+        try {
+            VendorDTO vendorDTO = vendorService.updateVendorPhone(vendorId, vendor);
+            return ResponseEntity.ok(vendorDTO);
+        } catch (CustomerException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new VendorDTO(e.getMessage()));
+        }
+    }
+    @PutMapping("/{vendorId}/update-address")
+    public ResponseEntity<VendorDTO> updateVendorAddress(
+            @PathVariable Integer vendorId,
+            @RequestBody Map<String, String> requestBody) {
+        String vendor = requestBody.get("vendorAddress");
+        if (vendor==null) {
+            return ResponseEntity.badRequest().body(new VendorDTO("Error: Address cannot be empty"));
+        }
+        try {
+            VendorDTO vendorDTO = vendorService.updateVendorData(vendorId, vendor);
+            return ResponseEntity.ok(vendorDTO);
+        } catch (CustomerException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new VendorDTO(e.getMessage()));
+        }
+    }
+    @PostMapping("/recordTransaction")
+    public ResponseEntity<String> recordTransaction(@RequestBody Map<String, Object> request) {
+        Integer vendorId = (Integer) request.get("vendorId");
+        Integer customerId = (Integer) request.get("customerId");
+        Integer quantityInMl = (Integer) request.get("quantity"); // Quantity in milliliters
+
+        vendorService.recordTransaction(vendorId, customerId, quantityInMl);
+
+        return ResponseEntity.ok("Transaction recorded successfully.");
+    }
+
+
 }

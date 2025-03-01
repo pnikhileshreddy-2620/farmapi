@@ -4,18 +4,24 @@ package com.farmweb.api.serviceImpl;
 import com.farmweb.api.dto.CustomerDTO;
 import com.farmweb.api.exception.CustomerException;
 import com.farmweb.api.model.Customer;
+import com.farmweb.api.model.History;
 import com.farmweb.api.repository.CustomerRepository;
+import com.farmweb.api.repository.HistoryRepository;
 import com.farmweb.api.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private HistoryRepository historyRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder; // Inject the PasswordEncoder
 
@@ -117,6 +123,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
         return new  CustomerDTO(customer);
     }
-
+    @Override
+    public List<History> getLast10TransactionsByCustomerId(Integer customerId) {
+        return historyRepository.findTop10ByCustomerIdOrderByTransactionDateDesc(customerId);
+    }
 
 }
